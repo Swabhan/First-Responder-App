@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
-// import { Picker } from '@react-native-picker/picker';
+import { StyleSheet, Text, View, Button, Linking } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
+import * as Location from 'expo-location';
+import { Audio } from 'expo-av';
 
 
+//Home
 const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
@@ -12,6 +14,7 @@ const HomeScreen = ({ navigation }) => {
       <Button
         title="User"
         onPress={() => navigation.navigate('User')}
+        style={styles.button}
       />
     </View>
   );
@@ -21,10 +24,10 @@ const HomeScreen = ({ navigation }) => {
 //----------
 //User
 //----------
-
 UserScreen = ({ navigation }) => {
   return (
       <View style={styles.container}>
+        <Button title="Send Location To First Responders" onPress={getLocation} />
         <Button 
           title="Report Disaster"
           onPress={() => navigation.navigate('Report')}
@@ -58,6 +61,13 @@ CallScreen = () => {
   return (
       <View style={styles.container}>
       <Text style={styles.title}>Call Emergency Services</Text>
+
+      <Button 
+          title="Call"
+          onPress={() => Linking.openURL(`tel:$5178998137`)}
+          onPress={() => Linking.openURL(`tel:$5178998137`)}
+        />
+      
       </View>
   );
 }
@@ -93,8 +103,31 @@ const App = () => {
 //-------------
 //Geo-location
 //-------------
+getLocation = async () => {
+  let { status } = await Location.requestForegroundPermissionsAsync();
+  if (status !== 'granted') {
+    console.log('Permission to access location was denied');
+    return;
+  }
 
+  let location = await Location.getCurrentPositionAsync({});
+  const { latitude, longitude } = location.coords;
+  console.log(latitude, longitude);
+}
+
+//-------------
+//Stylesheet
+//-------------
 const styles = StyleSheet.create({
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: 'yellow',
+  },
   container: {
     flex: 1,
     alignItems: 'center',
