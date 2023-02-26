@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Button, Linking } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import * as Location from 'expo-location';
-import { Audio } from 'expo-av';
-
+import { TextInput } from 'react-native-gesture-handler';
 
 //Home
 const HomeScreen = ({ navigation }) => {
@@ -27,7 +26,7 @@ const HomeScreen = ({ navigation }) => {
 UserScreen = ({ navigation }) => {
   return (
       <View style={styles.container}>
-        <Button title="Send Location To First Responders" onPress={getLocation} />
+        <Button title="Send Location To First Responders" onPress={getInfo} />
         <Button 
           title="Report Disaster"
           onPress={() => navigation.navigate('Report')}
@@ -65,7 +64,7 @@ CallScreen = () => {
       <Button 
           title="Call"
           onPress={() => Linking.openURL(`tel:$5178998137`)}
-          onPress={() => Linking.openURL(`tel:$5178998137`)}
+    
         />
       
       </View>
@@ -103,16 +102,32 @@ const App = () => {
 //-------------
 //Geo-location
 //-------------
-getLocation = async () => {
+getInfo = async () => {
   let { status } = await Location.requestForegroundPermissionsAsync();
   if (status !== 'granted') {
     console.log('Permission to access location was denied');
     return;
   }
 
+  //Position
   let location = await Location.getCurrentPositionAsync({});
   const { latitude, longitude } = location.coords;
+  console.log('Location');
   console.log(latitude, longitude);
+
+  //Time
+  const date = new Date().getDate();
+  const month = new Date().getMonth() +1;
+  const hours = new Date().getHours(); //Current Hours
+  const min = new Date().getMinutes(); //Current Minutes
+  const sec = new Date().getSeconds(); //Current Seconds
+  const time = hours + ':' +min + ':' + sec;
+  console.log('Date');
+  console.log(date)
+  console.log('Month');
+  console.log(month);
+  console.log('Timestamp');
+  console.log(time);
 }
 
 //-------------
