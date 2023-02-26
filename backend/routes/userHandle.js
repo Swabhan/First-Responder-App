@@ -57,7 +57,7 @@ router.put('/addUser:id', async (req, res) => {
 
 });
 
-router.patch('/users/:id', async (req, res) => {
+router.patch('/user:id', async (req, res) => {
     try {
         const { id } = req.params;
         const { name, username } = req.body;
