@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+
+    <!-- Reference to the Bing Maps SDK -->
+    <script type='text/javascript'
+            src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AoE8fSSrbS6EPNOfgxOcJvJLvIcUaXsPPE88exgEl0_7omgVosCXZruMwPmmkmhH' 
+            async defer></script>
+    
+    <script type='text/javascript'>
+    function GetMap()
+    {
+        var map = new Microsoft.Maps.Map('#myMap');
+        var pushpins = [
+            {
+              location: new Microsoft.Maps.Location(40.116329, -88.243523),
+              title: "Marker 1",
+              description: "Reason - Bank Robbery, Marked Reason - Suspect Spotted, Timestamp - 11:36PM",
+            },
+            {
+              location: new Microsoft.Maps.Location(40.216339, -88.343523),
+              title: "Marker 2",
+              description: "Reason - Bank Robbery, Marked Reason - Suspect Spotted, Timestamp - 11:38PM"
+            },
+            {
+              location: new Microsoft.Maps.Location(40.516329, -88.243544),
+              title: "Marker 3",
+              description: "Reason - Bank Robbery, Marked Reason - Suspect Spotted, Timestamp - 11:47PM"
+            }
+          ];
+
+        
+        pushpins.forEach(function (pin) {
+            var pushpin = new Microsoft.Maps.Pushpin(pin.location, {
+              title: pin.title,
+              description: pin.description,
+              icon: "https://www.bingmapsportal.com/Content/images/poi_custom.png",
+              draggable: false
+            });
+            map.entities.push(pushpin);
+            Microsoft.Maps.Events.addHandler(pushpin, "click", function () {
+              alert(pushpin.getDescription());
+            });
+          });
+    }
+    </script>
+</head>
+<body>
+    <div id="myMap" style="position:relative;width:100%;height:100%;"></div>
+</body>
+</html>
